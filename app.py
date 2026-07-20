@@ -10,7 +10,8 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 # ==========================================
 # 0. SECURITY & API KEY CONTROL
 # ==========================================
-MY_GEMINI_KEY = st.secrets["GEMINI_API_KEY"]
+import os
+MY_GEMINI_KEY = os.environ.get("GEMINI_API_KEY")
 # Import tools
 from tools import get_weather_precautions, find_emergency_hospital
 
