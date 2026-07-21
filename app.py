@@ -129,7 +129,7 @@ if user_input := st.chat_input("Describe symptoms or ask for health/emergency gu
     try:
         # THE FIX: Updated strictly to gemini-3.5-flash
         llm = ChatGoogleGenerativeAI(
-            model="gemini-3.1-flash-lite", 
+            model="gemini-1.5-flash", 
             google_api_key=MY_GEMINI_KEY, 
             temperature=0.1
         )
