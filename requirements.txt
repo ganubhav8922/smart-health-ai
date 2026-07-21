@@ -1,6 +1,6 @@
 streamlit==1.35.0
 langchain
-langchain-openai
+langchain-groq
 langchain-community
 langchain-chroma>=0.1.1
 sentence-transformers==3.0.1

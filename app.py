@@ -1,6 +1,6 @@
 import os
 import streamlit as st
-from langchain_openai import ChatOpenAI
+from langchain_groq import ChatGroq
 from langchain.agents import AgentExecutor, create_tool_calling_agent
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage
@@ -24,16 +24,16 @@ st.sidebar.header("📍 Location Control Center")
 lat = st.sidebar.number_input("Latitude", value=26.4499, format="%.4f")
 lon = st.sidebar.number_input("Longitude", value=80.3319, format="%.4f")
 
-# --- 4. Initialize OpenAI LLM ---
-api_key = os.environ.get("OPENAI_API_KEY")
+# --- 4. Initialize Free Groq LLM ---
+groq_api_key = os.environ.get("GROQ_API_KEY")
 
-if not api_key:
-    st.error("⚠️ `OPENAI_API_KEY` environment variable is not set. Please add it in Render settings.")
+if not groq_api_key:
+    st.error("⚠️ `GROQ_API_KEY` environment variable is not set. Please add it in Render settings.")
 
-llm = ChatOpenAI(
-    model="gpt-4o-mini",
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
     temperature=0.2,
-    api_key=api_key
+    api_key=groq_api_key
 )
 
 # --- 5. System Prompt & Agent Setup ---
@@ -70,11 +70,9 @@ for message in st.session_state.chat_history:
 
 # --- 7. Chat Input & Processing ---
 if user_input := st.chat_input("Describe symptoms or ask for health/emergency guidance..."):
-    # Display user input
     with st.chat_message("user"):
         st.write(user_input)
 
-    # Generate AI response
     with st.chat_message("assistant"):
         with st.spinner("Processing..."):
             try:
@@ -90,7 +88,6 @@ if user_input := st.chat_input("Describe symptoms or ask for health/emergency gu
 
                 st.write(reply)
 
-                # Save interaction to history
                 st.session_state.chat_history.append(HumanMessage(content=user_input))
                 st.session_state.chat_history.append(AIMessage(content=reply))
 
